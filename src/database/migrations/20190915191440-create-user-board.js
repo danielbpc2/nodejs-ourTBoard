@@ -1,4 +1,3 @@
-'use strict'
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('UserBoards', {
@@ -6,33 +5,33 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       board_id: {
         type: Sequelize.INTEGER,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
         references: { model: 'Boards', key: 'id' },
-        allowNull: false
+        allowNull: false,
       },
       user_id: {
         type: Sequelize.INTEGER,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
         references: { model: 'Users', key: 'id' },
-        allowNull: false
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
-    })
+        type: Sequelize.DATE,
+      },
+    });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('UserBoards')
-  }
-}
+    return queryInterface.dropTable('UserBoards');
+  },
+};

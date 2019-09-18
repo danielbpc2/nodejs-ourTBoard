@@ -1,7 +1,7 @@
-const express = require('express')
+import express from 'express';
 
-const routes = express.Router()
+const routes = express.Router();
 
-routes.get('/', (req, res) => res.json({ hello: 'working' }))
+routes.get('/', (req, res) => res.json({ hello: 'working' }));
 
-module.exports = routes
+export default routes;
