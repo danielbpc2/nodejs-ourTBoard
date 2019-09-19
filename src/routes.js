@@ -13,7 +13,6 @@ routes.get('/users', (req, res) =>
 );
 // Create a User
 routes.post('/users', (req, res) => {
-  console.log(req.body);
   models.User.create({
     username: req.body.username,
     email: req.body.email,
