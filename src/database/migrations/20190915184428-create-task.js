@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Tasks', {
+    return queryInterface.createTable('tasks', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -18,21 +18,21 @@ module.exports = {
         type: Sequelize.INTEGER,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
-        references: { model: 'Lists', key: 'id' },
+        references: { model: 'lists', key: 'id' },
         allowNull: false,
       },
       owner: {
         type: Sequelize.INTEGER,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
-        references: { model: 'Users', key: 'id' },
+        references: { model: 'users', key: 'id' },
         allowNull: false,
       },
       assigned: {
         type: Sequelize.INTEGER,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
-        references: { model: 'Users', key: 'id' },
+        references: { model: 'users', key: 'id' },
         allowNull: true,
       },
       createdAt: {
@@ -46,6 +46,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Tasks');
+    return queryInterface.dropTable('tasks');
   },
 };

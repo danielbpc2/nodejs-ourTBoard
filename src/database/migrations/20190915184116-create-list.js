@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Lists', {
+    return queryInterface.createTable('lists', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -15,20 +15,20 @@ module.exports = {
         type: Sequelize.INTEGER,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
-        references: { model: 'Boards', key: 'id' },
+        references: { model: 'boards', key: 'id' },
         allowNull: false,
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Lists');
+    return queryInterface.dropTable('lists');
   },
 };

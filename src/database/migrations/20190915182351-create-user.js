@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Users', {
+    return queryInterface.createTable('users', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -19,17 +19,17 @@ module.exports = {
       active: {
         type: Sequelize.BOOLEAN,
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Users');
+    return queryInterface.dropTable('users');
   },
 };
