@@ -7,17 +7,15 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      username: {
-        type: Sequelize.STRING,
-      },
       email: {
         type: Sequelize.STRING,
       },
-      password: {
+      password_hash: {
         type: Sequelize.STRING,
       },
       active: {
         type: Sequelize.BOOLEAN,
+        defaultValue: '1',
       },
       created_at: {
         allowNull: false,
