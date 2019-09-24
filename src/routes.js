@@ -1,10 +1,14 @@
 import express from 'express';
 
 import UserController from './app/controllers/UserController';
+import SessionController from './app/controllers/SessionController';
 
 const routes = express.Router();
 
 routes.get('/', (req, res) => res.json({ hello: 'working' }));
+
+// Session Controller
+routes.post('/session', SessionController.store);
 
 // User Routes
 routes.get('/users', UserController.index);
