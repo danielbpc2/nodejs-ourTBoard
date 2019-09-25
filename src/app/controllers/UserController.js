@@ -11,38 +11,54 @@ class UserController {
     const user = await User.findByPk(req.params.id);
 
     if (user) {
-      return res.json(user);
+      const { id, name, email, active } = user;
+
+      return res.json({
+        id,
+        name,
+        email,
+        active,
+      });
     }
 
-    return res.status(404).json({ error: 'User not found' });
+    return res.status(400).json({ error: 'User not found' });
   }
 
   async store(req, res) {
-    const user = await User.create(req.body);
+    const userExist = await User.findOne({ where: { email: req.body.email } });
 
-    return res.json(user);
+    if (userExist) {
+      return res.status(400).json({ error: 'User already exists. ' });
+    }
+
+    const { id, name, email, active } = await User.create(req.body);
+
+    return res.json({ id, name, email, active });
   }
 
   async update(req, res) {
-    const user = await User.findByPk(req.params.id);
+    const { userId } = req;
+
+    const user = await User.findByPk(userId);
 
     if (user) {
-      return res.json(await user.update(req.body));
+      const { id, name, email, active } = await user.update(req.body);
+      return res.json({ id, name, email, active });
     }
 
-    return res.status(404).json({ error: 'User not found' });
+    return res.status(400).json({ error: 'User not found' });
   }
 
   async delete(req, res) {
     const user = await User.findByPk(req.params.id);
 
     if (user) {
-      user.destroy();
+      await user.update({ active: false });
 
       return res.status(200).json({ success: true });
     }
 
-    return res.status(404).json({ error: 'User not found' });
+    return res.status(400).json({ error: 'User not found' });
   }
 }
 
