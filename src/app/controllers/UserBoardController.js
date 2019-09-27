@@ -2,7 +2,6 @@ import { User, Board, UserBoard } from '../models';
 
 class UserBoardController {
   // Returns all userboards
-  // TODO: Return only the ones where the user is in.
   async index(req, res) {
     const userIncludedIn = await UserBoard.findAll({
       where: { user_id: req.userId },
@@ -37,8 +36,6 @@ class UserBoardController {
         .json({ error: 'you are not the owner of this board' });
     }
 
-    console.log(userExists.id);
-    console.log(req.userId);
     if (alreadyIncluded || boardExists.owner === userExists.id) {
       return res.status(400).json({
         error: 'This user is already included or is the owner of this board.',
@@ -52,9 +49,20 @@ class UserBoardController {
     return res.json(userboard);
   }
 
-  async update(req, res) {}
+  async delete(req, res) {
+    const userboard = await UserBoard.findByPk(req.params.id);
+    const board = await Board.findByPk(userboard.board_id);
 
-  async delete(req, res) {}
+    if (userboard && board.owner === req.userId) {
+      await userboard.destroy();
+
+      return res.status(200).json({ success: true });
+    }
+
+    return res.status(400).json({
+      error: "User-Board permission not found or you don't have permission",
+    });
+  }
 }
 
 export default new UserBoardController();
