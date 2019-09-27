@@ -2,6 +2,7 @@ import express from 'express';
 
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
+import BoardController from './app/controllers/BoardController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -23,5 +24,12 @@ routes.get('/users', UserController.index);
 routes.get('/users/:id', UserController.show);
 routes.put('/users', UserController.update);
 routes.delete('/users/:id', UserController.delete);
+
+// Board Routes
+routes.get('/boards', BoardController.index);
+routes.get('/boards/:id', BoardController.show);
+routes.post('/boards', BoardController.store);
+routes.put('/boards', BoardController.update);
+routes.delete('/boards/:id', BoardController.delete);
 
 export default routes;
