@@ -7,7 +7,8 @@ import authMiddleware from './app/middlewares/auth';
 
 const routes = express.Router();
 
-routes.get('/', (req, res) => res.json({ hello: 'working' }));
+// Root route
+routes.get('/', (req, res) => res.json({ Api_status: 'working' }));
 
 // Session Controller
 routes.post('/session', SessionController.store);

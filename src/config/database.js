@@ -5,7 +5,6 @@ module.exports = {
   database: 'ourtboard',
   host: '127.0.0.1',
   dialect: 'postgres',
-  operatorsAliases: false,
   define: {
     timestamps: true,
     underscored: true,
