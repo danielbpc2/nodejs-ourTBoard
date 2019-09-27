@@ -7,7 +7,7 @@ class UserBoardController {
     const userIncludedIn = await UserBoard.findAll({
       where: { user_id: req.userId },
       attributes: {
-        exclude: ['id', 'user_id', 'board_id', 'createdAt', 'updatedAt'],
+        exclude: ['user_id', 'board_id'],
       },
       include: { model: Board, attributes: { exclude: ['id', 'active'] } },
     });
