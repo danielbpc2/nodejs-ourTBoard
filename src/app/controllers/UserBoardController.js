@@ -2,18 +2,8 @@ import { User, Board, UserBoard } from '../models';
 
 class UserBoardController {
   async index(req, res) {
-    const { active } = req.query;
-
-    let userInBoard;
-    if (active) {
-      usersInBoard = await UserBoard.findAll({
-        where: { active, owner: req.userId },
-      });
-    } else {
-      usersInBoard = await UserBoard.findAll({ where: { owner: req.userId } });
-    }
-
-    return res.json(boards);
+    const usersInBoard = await UserBoard.findAll({});
+    return res.json(usersInBoard);
   }
 
   async show(req, res) {}
