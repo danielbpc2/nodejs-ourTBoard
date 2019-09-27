@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
   );
   UserBoard.associate = function(models) {
     // associations can be defined here
-    UserBoard.belongsTo(models.User);
-    UserBoard.belongsTo(models.Board);
+    UserBoard.belongsTo(models.User, { foreignKey: 'user_id' });
+    UserBoard.belongsTo(models.Board, { foreignKey: 'board_id' });
   };
   return UserBoard;
 };
