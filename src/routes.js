@@ -36,5 +36,6 @@ routes.delete('/boards/:id', BoardController.delete);
 routes.get('/userboards', UserBoardController.index);
 routes.post('/userboards', UserBoardController.store);
 routes.delete('/userboards/:id', UserBoardController.delete);
+routes.get('/boards/:board_id/usersboard', UserBoardController.show);
 
 export default routes;

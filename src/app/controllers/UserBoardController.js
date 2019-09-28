@@ -14,7 +14,13 @@ class UserBoardController {
     return res.json(userIncludedIn);
   }
 
-  async show(req, res) {}
+  async show(req, res) {
+    const board = await Board.findByPk(req.params.board_id, {
+      include: { model: UserBoard },
+    });
+
+    return res.json(board);
+  }
 
   async store(req, res) {
     const { email, board_id } = req.body;
@@ -27,7 +33,7 @@ class UserBoardController {
         .json({ error: "This user or board doesn't exist" });
     }
     const alreadyIncluded = await UserBoard.findOne({
-      options: { where: [userExists.id, board_id] },
+      where: { user_id: userExists.id, board_id },
     });
 
     if (boardExists.owner !== req.userId) {
@@ -50,8 +56,10 @@ class UserBoardController {
   }
 
   async delete(req, res) {
-    const userboard = await UserBoard.findByPk(req.params.id);
-    const board = await Board.findByPk(userboard.board_id);
+    const userboard = await UserBoard.findByPk(req.params.id, {
+      include: { model: Board },
+    });
+    const board = userboard.dataValues.Board.dataValues;
 
     if (userboard && board.owner === req.userId) {
       await userboard.destroy();
