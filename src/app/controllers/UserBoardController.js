@@ -16,10 +16,19 @@ class UserBoardController {
 
   async show(req, res) {
     const board = await Board.findByPk(req.params.board_id, {
-      include: { model: UserBoard },
+      include: {
+        model: UserBoard,
+        attributes: { exclude: ['board_id', 'createdAt', 'updatedAt', 'id'] },
+      },
     });
 
-    return res.json(board);
+    if (!board) {
+      return res.status(400).json({ error: 'This board does not exist!' });
+    }
+
+    const userBoards = board.UserBoards;
+
+    return res.json({ permissions: [...userBoards] });
   }
 
   async store(req, res) {
