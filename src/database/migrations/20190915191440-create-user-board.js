@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('userboards', {
+    return queryInterface.createTable('user_boards', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -21,17 +21,17 @@ module.exports = {
         references: { model: 'users', key: 'id' },
         allowNull: false,
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('userboards');
+    return queryInterface.dropTable('user_boards');
   },
 };

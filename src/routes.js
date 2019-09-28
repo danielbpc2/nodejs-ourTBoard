@@ -3,7 +3,7 @@ import express from 'express';
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import BoardController from './app/controllers/BoardController';
-
+import UserBoardController from './app/controllers/UserBoardController';
 import authMiddleware from './app/middlewares/auth';
 
 const routes = express.Router();
@@ -31,5 +31,12 @@ routes.get('/boards/:id', BoardController.show);
 routes.post('/boards', BoardController.store);
 routes.put('/boards', BoardController.update);
 routes.delete('/boards/:id', BoardController.delete);
+
+// UserBoard Routes
+routes.get('/userboards', UserBoardController.index);
+routes.post('/userboards', UserBoardController.store);
+routes.delete('/userboards/:id', UserBoardController.delete);
+// userboard nested in Board Route, gives users inside a board
+routes.get('/boards/:board_id/usersboard', UserBoardController.show);
 
 export default routes;

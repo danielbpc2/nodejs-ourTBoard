@@ -2,9 +2,11 @@ import { User } from '../models';
 
 class UserController {
   async index(req, res) {
-    const Users = await User.findAll({});
+    const Users = await User.findAll({
+      attributes: { exclude: ['password_hash'] },
+    });
 
-    return res.json(Users);
+    return res.json({ users: Users });
   }
 
   async show(req, res) {
