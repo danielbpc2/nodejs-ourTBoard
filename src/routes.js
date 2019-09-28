@@ -36,6 +36,7 @@ routes.delete('/boards/:id', BoardController.delete);
 routes.get('/userboards', UserBoardController.index);
 routes.post('/userboards', UserBoardController.store);
 routes.delete('/userboards/:id', UserBoardController.delete);
+// userboard nested in Board Route, gives users inside a board
 routes.get('/boards/:board_id/usersboard', UserBoardController.show);
 
 export default routes;
