@@ -9,9 +9,11 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       active: {
         type: Sequelize.BOOLEAN,
+        defaultValue: '1',
       },
       owner: {
         type: Sequelize.INTEGER,
