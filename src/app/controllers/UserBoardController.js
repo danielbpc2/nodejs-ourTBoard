@@ -14,6 +14,11 @@ class UserBoardController {
     return res.json(userIncludedIn);
   }
 
+  /**
+   * Shows the users with permission inside a board
+   * @param {*} req params from route :board_id
+   * @param {*} res
+   */
   async show(req, res) {
     const board = await Board.findByPk(req.params.board_id, {
       include: {
@@ -31,6 +36,11 @@ class UserBoardController {
     return res.json({ permissions: [...userBoards] });
   }
 
+  /**
+   *  gives permission to a user to use a board
+   * @param {*} req consists in the email from the user and the board id on its body
+   * @param {*} res response
+   */
   async store(req, res) {
     const { email, board_id } = req.body;
     const userExists = await User.findOne({ where: { email } });
@@ -64,6 +74,11 @@ class UserBoardController {
     return res.json(userboard);
   }
 
+  /**
+   * Deletes a permission
+   * @param {*} req receives a params :id from the userboard
+   * @param {*} res
+   */
   async delete(req, res) {
     const userboard = await UserBoard.findByPk(req.params.id, {
       include: { model: Board },
