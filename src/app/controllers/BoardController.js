@@ -1,15 +1,10 @@
-import { Board } from '../models';
+import { Board, List } from '../models';
 
 class BoardController {
   async index(req, res) {
-    const { active } = req.query;
+    // const { active } = req.query;
 
-    let boards;
-    if (active) {
-      boards = await Board.findAll({ where: { active, owner: req.userId } });
-    } else {
-      boards = await Board.findAll({ where: { owner: req.userId } });
-    }
+    const boards = await Board.findAll({ where: { owner: req.userId } });
 
     return res.json(boards);
   }
@@ -39,6 +34,26 @@ class BoardController {
       ...req.body,
       owner: req.userId,
     });
+
+    // Create Default Lists
+    const createDefaultListToDo = {
+      board_id: id,
+      name: 'To Do',
+    };
+
+    const createDefaultListDoing = {
+      board_id: id,
+      name: 'Doing',
+    };
+
+    const createDefaultListDone = {
+      board_id: id,
+      name: 'Done',
+    };
+
+    await List.create(createDefaultListToDo);
+    await List.create(createDefaultListDoing);
+    await List.create(createDefaultListDone);
 
     return res.json({ id, name, active });
   }
