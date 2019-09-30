@@ -1,10 +1,13 @@
-import { Board, List } from '../models';
+import { Board, List, Task } from '../models';
 
 class BoardController {
   async index(req, res) {
     // const { active } = req.query;
 
-    const boards = await Board.findAll({ where: { owner: req.userId } });
+    const boards = await Board.findAll({
+      where: { owner: req.userId },
+      // include: { model: List, include: Task },
+    });
 
     return res.json(boards);
   }
