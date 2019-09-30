@@ -1,4 +1,4 @@
-import { Task, List, User, Board } from '../models';
+import { Task, List, UserBoard, Board } from '../models';
 
 class TaskController {
   /**
@@ -8,6 +8,10 @@ class TaskController {
    * @param {*} res
    */
   async index(req, res) {
+    const loggedUserIsIncluded = await UserBoard.findOne({
+      where: { user_id: req.userId, board_id: req.params.board_id },
+    });
+
     const board = await Board.findOne({
       where: { id: req.params.board_id },
       include: {
@@ -17,10 +21,10 @@ class TaskController {
       },
     });
 
-    if (board.owner !== req.userId) {
-      return res
-        .status(400)
-        .json({ error: 'You are not the owner of this Board' });
+    if (board.owner !== req.userId && !loggedUserIsIncluded) {
+      return res.status(400).json({
+        error: 'You are not the owner, or a collaborator of this Board',
+      });
     }
 
     if (!board) {
@@ -39,6 +43,10 @@ class TaskController {
    * @param {*} res
    */
   async show(req, res) {
+    const loggedUserIsIncluded = await UserBoard.findOne({
+      where: { user_id: req.userId, board_id: req.params.board_id },
+    });
+
     const task = await Task.findByPk(req.params.id, {
       include: {
         // model: Board,
@@ -69,7 +77,11 @@ class TaskController {
       return res.status(400).json({ error: "This list doesn't exist" });
     }
 
-    if (listExists.Board.owner !== req.userId) {
+    const loggedUserIsIncluded = await UserBoard.findOne({
+      where: { user_id: req.userId, board_id: listExists.Board.id },
+    });
+
+    if (listExists.Board.owner !== req.userId && !loggedUserIsIncluded) {
       return res
         .status(400)
         .json({ error: 'You are not the owner of this Board' });
@@ -95,8 +107,16 @@ class TaskController {
     if (!task) {
       return res.status(400).json({ error: 'This Task does not exist!' });
     }
+    const list = await List.findOne({
+      where: { id: task.list_id },
+      include: { model: Board },
+    });
 
-    if (task.owner === req.userId) {
+    const loggedUserIsIncluded = await UserBoard.findOne({
+      where: { user_id: req.userId, board_id: list.Board.id },
+    });
+
+    if (task.owner === req.userId || loggedUserIsIncluded) {
       await task.destroy();
 
       return res.status(200).json({ success: true });
