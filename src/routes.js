@@ -4,6 +4,7 @@ import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import BoardController from './app/controllers/BoardController';
 import UserBoardController from './app/controllers/UserBoardController';
+import ListController from './app/controllers/ListController';
 import authMiddleware from './app/middlewares/auth';
 
 const routes = express.Router();
@@ -38,5 +39,9 @@ routes.post('/userboards', UserBoardController.store);
 routes.delete('/userboards/:id', UserBoardController.delete);
 // userboard nested in Board Route, gives users inside a board
 routes.get('/boards/:board_id/usersboard', UserBoardController.show);
+routes.get('/boards/:board_id/lists', ListController.show);
+routes.post('/boards/lists', ListController.store);
+routes.delete('/boards/lists/:id', ListController.delete);
+routes.put('/boards/lists', ListController.update);
 
 export default routes;
