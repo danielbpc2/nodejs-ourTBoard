@@ -8,7 +8,10 @@ class UserBoardController {
       attributes: {
         exclude: ['user_id', 'board_id'],
       },
-      include: { model: Board, attributes: { exclude: ['id', 'active'] } },
+      include: {
+        model: Board,
+        attributes: { exclude: ['active', 'createdAt', 'updatedAt', 'owner'] },
+      },
     });
 
     return res.json(userIncludedIn);
