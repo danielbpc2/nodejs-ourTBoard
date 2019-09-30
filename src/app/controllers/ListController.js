@@ -2,6 +2,27 @@ import { List, Board, UserBoard } from '../models';
 
 class ListController {
   async show(req, res) {
+    const board = await Board.findByPk(req.params.board_id);
+
+    if (!board) {
+      return res.status(400).json({ error: 'This board does not exist. ' });
+    }
+
+    console.log(board.owner);
+    console.log(req.userId);
+
+    if (board.owner !== req.userId) {
+      const loggedUserIsIncluded = await UserBoard.findAll({
+        where: { user_id: req.userId, board_id: req.params.board_id },
+      });
+
+      if (loggedUserIsIncluded.length === 0) {
+        return res.status(400).json({
+          error: "You don't have permission on this board. ",
+        });
+      }
+    }
+
     const lists = await List.findAll({
       where: { board_id: req.params.board_id },
     });
@@ -16,7 +37,15 @@ class ListController {
       return res.status(400).json({ error: 'Board does not exist. ' });
     }
     if (board.owner !== req.userId) {
-      console.log('Criou o status com outro usuario');
+      const loggedUserIsIncluded = await UserBoard.findAll({
+        where: { user_id: req.userId, board_id: req.body.board_id },
+      });
+
+      if (!loggedUserIsIncluded) {
+        return res.status(400).json({
+          error: "You don't have permission to create list in this board. ",
+        });
+      }
     }
 
     const listExist = await List.findOne({
@@ -35,6 +64,24 @@ class ListController {
   }
 
   async update(req, res) {
+    const board = await Board.findByPk(req.body.board_id);
+
+    if (!board) {
+      return res.status(400).json({ error: 'This board does not exist. ' });
+    }
+
+    if (board.owner !== req.userId) {
+      const loggedUserIsIncluded = await UserBoard.findAll({
+        where: { user_id: req.userId, board_id: req.body.board_id },
+      });
+
+      if (!loggedUserIsIncluded) {
+        return res.status(400).json({
+          error: "You don't have permission on this board. ",
+        });
+      }
+    }
+
     const listExist = await List.findByPk(req.body.id);
 
     if (!listExist) {
@@ -48,13 +95,31 @@ class ListController {
   async delete(req, res) {
     const list = await List.findByPk(req.params.id);
 
-    if (list) {
-      await list.destroy();
-
-      return res.status(200).json({ success: true });
+    if (!list) {
+      return res.status(400).json({ error: 'List not found' });
     }
 
-    return res.status(400).json({ error: 'List not found' });
+    const board = await Board.findByPk(list.board_id);
+
+    if (!board) {
+      return res.status(400).json({ error: 'This board does not exist. ' });
+    }
+
+    if (board.owner !== req.userId) {
+      const loggedUserIsIncluded = await UserBoard.findAll({
+        where: { user_id: req.userId, board_id: req.body.board_id },
+      });
+
+      if (!loggedUserIsIncluded) {
+        return res.status(400).json({
+          error: "You don't have permission on this board. ",
+        });
+      }
+    }
+
+    await list.destroy();
+
+    return res.status(200).json({ success: true });
   }
 }
 
