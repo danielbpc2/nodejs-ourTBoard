@@ -8,9 +8,6 @@ class ListController {
       return res.status(400).json({ error: 'This board does not exist. ' });
     }
 
-    console.log(board.owner);
-    console.log(req.userId);
-
     if (board.owner !== req.userId) {
       const loggedUserIsIncluded = await UserBoard.findAll({
         where: { user_id: req.userId, board_id: req.params.board_id },
