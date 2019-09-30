@@ -47,14 +47,12 @@ routes.delete('/boards/lists/:id', ListController.delete);
 routes.put('/boards/lists', ListController.update);
 
 // Tasks Routes
+// Tasks from a board and its lists
 routes.get('/boards/:board_id/tasks', TaskController.index);
 // Task Details
-// routes.get('/boards/lists/:list_id/tasks/:id', TaskController.show);
-// store a Task
+routes.get('/boards/lists/tasks/:id', TaskController.show);
 routes.post('/boards/lists/:list_id/tasks', TaskController.store);
-// update a Task
-// routes.put('/boards/lists/:list_id/tasks/:id', TaskController.update);
-// delete a Task
+routes.put('/boards/lists/tasks/:id', TaskController.update);
 routes.delete('/boards/lists/tasks/:id', TaskController.delete);
 
 export default routes;

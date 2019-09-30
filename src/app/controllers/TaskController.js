@@ -3,8 +3,7 @@ import { Task, List, UserBoard, Board } from '../models';
 class TaskController {
   /**
    * Returns all tasks from a Board
-   * :board_id params
-   * @param {*} req
+   * @param {*} req params.board_id
    * @param {*} res
    */
   async index(req, res) {
@@ -38,31 +37,34 @@ class TaskController {
   }
 
   /**
-   *
-   * @param {*} {req}
+   * returns a task.
+   * @param {*} {req} params = id (from task)
    * @param {*} res
    */
   async show(req, res) {
-    const loggedUserIsIncluded = await UserBoard.findOne({
-      where: { user_id: req.userId, board_id: req.params.board_id },
-    });
-
-    const task = await Task.findByPk(req.params.id, {
-      include: {
-        // model: Board,
-        // attributes: { exclude: ['board_id', 'createdAt', 'updatedAt', 'id'] },
-      },
-    });
+    const task = await Task.findByPk(req.params.id);
 
     if (!task) {
       return res.status(400).json({ error: 'This Task does not exist!' });
+    }
+
+    const list = await List.findOne({ where: { id: task.list_id } });
+
+    const loggedUserIsIncluded = await UserBoard.findOne({
+      where: { user_id: req.userId, board_id: list.board_id },
+    });
+
+    if (task.owner !== req.userId && !loggedUserIsIncluded) {
+      return res.status(400).json({
+        error: 'You are not the owner, or a collaborator of this Board',
+      });
     }
 
     return res.json({ task });
   }
 
   /**
-   *
+   * Saves a task if you are a collaborator or owner of the board
    * @param {*} req
    * @param {*} res
    */
@@ -82,9 +84,9 @@ class TaskController {
     });
 
     if (listExists.Board.owner !== req.userId && !loggedUserIsIncluded) {
-      return res
-        .status(400)
-        .json({ error: 'You are not the owner of this Board' });
+      return res.status(400).json({
+        error: 'You are not the owner, or a collaborator of this Board',
+      });
     }
 
     const task = await Task.create({
@@ -97,8 +99,35 @@ class TaskController {
   }
 
   /**
-   *
-   * @param {*} req
+   * Update a task
+   * @param {*} req params id
+   * @param {*} res
+   */
+  async update(req, res) {
+    let task = await Task.findByPk(req.params.id);
+
+    if (!task) {
+      return res.status(400).json({ error: 'This Task does not exist!' });
+    }
+
+    const list = await List.findOne({ where: { id: task.list_id } });
+
+    const loggedUserIsIncluded = await UserBoard.findOne({
+      where: { user_id: req.userId, board_id: list.board_id },
+    });
+
+    if (task.owner !== req.userId && !loggedUserIsIncluded) {
+      return res.status(400).json({
+        error: 'You are not the owner, or a collaborator of this Board',
+      });
+    }
+    task = await task.update(req.body);
+    return res.json(task);
+  }
+
+  /**
+   * deletes a task
+   * @param {*} req params: id
    * @param {*} res
    */
   async delete(req, res) {
