@@ -33,10 +33,7 @@ class TaskController {
       return res.status(400).json({ error: 'This board does not exist!' });
     }
 
-    return res.json({
-      Board: board.name,
-      Lists: board.Lists,
-    });
+    return res.json(board.Lists);
   }
 
   /**
