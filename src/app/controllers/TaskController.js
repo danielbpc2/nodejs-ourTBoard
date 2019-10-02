@@ -13,9 +13,12 @@ class TaskController {
 
     const board = await Board.findOne({
       where: { id: req.params.board_id },
+      order: [[List, 'id', 'ASC']],
       include: {
         model: List,
-        attributes: { exclude: ['id', 'board_id', 'createdAt', 'updatedAt'] },
+        attributes: {
+          exclude: ['board_id', 'createdAt', 'updatedAt'],
+        },
         include: { model: Task, attributes: { exclude: ['list_id'] } },
       },
     });
@@ -32,7 +35,7 @@ class TaskController {
 
     return res.json({
       Board: board.name,
-      Lists: [...board.Lists],
+      Lists: board.Lists,
     });
   }
 
