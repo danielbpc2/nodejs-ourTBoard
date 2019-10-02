@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       title: DataTypes.STRING,
       content: DataTypes.STRING,
-      list: DataTypes.INTEGER,
+      list_id: DataTypes.INTEGER,
       owner: DataTypes.INTEGER,
       assigned: DataTypes.INTEGER,
     },
@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Task.belongsTo(models.User, { foreignKey: 'owner' });
     Task.belongsTo(models.User, { foreignKey: 'assigned' });
-    Task.belongsTo(models.List, { foreinKey: 'list' });
+    Task.belongsTo(models.List, { foreignKey: 'list_id' });
   };
   return Task;
 };

@@ -5,6 +5,7 @@ import SessionController from './app/controllers/SessionController';
 import BoardController from './app/controllers/BoardController';
 import UserBoardController from './app/controllers/UserBoardController';
 import ListController from './app/controllers/ListController';
+import TaskController from './app/controllers/TaskController';
 import authMiddleware from './app/middlewares/auth';
 
 const routes = express.Router();
@@ -37,11 +38,21 @@ routes.delete('/boards/:id', BoardController.delete);
 routes.get('/userboards', UserBoardController.index);
 routes.post('/userboards', UserBoardController.store);
 routes.delete('/userboards/:id', UserBoardController.delete);
-// userboard nested in Board Route, gives users inside a board
+
+// Userboard and List nested in Board Route, gives users inside a board
 routes.get('/boards/:board_id/usersboard', UserBoardController.show);
 routes.get('/boards/:board_id/lists', ListController.show);
 routes.post('/boards/lists', ListController.store);
 routes.delete('/boards/lists/:id', ListController.delete);
 routes.put('/boards/lists', ListController.update);
+
+// Tasks Routes
+// Tasks from a board and its lists
+routes.get('/boards/:board_id/tasks', TaskController.index);
+// Task Details
+routes.get('/boards/lists/tasks/:id', TaskController.show);
+routes.post('/boards/lists/:list_id/tasks', TaskController.store);
+routes.put('/boards/lists/tasks/:id', TaskController.update);
+routes.delete('/boards/lists/tasks/:id', TaskController.delete);
 
 export default routes;

@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
   List.associate = function(models) {
     // associations can be defined here
     List.belongsTo(models.Board, { foreignKey: 'board_id' });
-    List.hasMany(models.Task);
+    List.hasMany(models.Task, { foreignKey: 'list_id' });
   };
   return List;
 };

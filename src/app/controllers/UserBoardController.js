@@ -86,7 +86,7 @@ class UserBoardController {
     const userboard = await UserBoard.findByPk(req.params.id, {
       include: { model: Board },
     });
-    const board = userboard.dataValues.Board.dataValues;
+    const board = userboard.Board;
 
     if (userboard && board.owner === req.userId) {
       await userboard.destroy();
