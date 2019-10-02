@@ -19,7 +19,10 @@ class TaskController {
         attributes: {
           exclude: ['board_id', 'createdAt', 'updatedAt'],
         },
-        include: { model: Task, attributes: { exclude: ['list_id'] } },
+        include: {
+          model: Task,
+          attributes: { exclude: ['list_id', 'updatedAt'] },
+        },
       },
     });
 
