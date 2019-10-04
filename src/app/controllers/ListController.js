@@ -28,14 +28,14 @@ class ListController {
   }
 
   async store(req, res) {
-    const board = await Board.findByPk(req.body.board_id);
+    const board = await Board.findByPk(req.params.board_id);
 
     if (!board) {
       return res.status(400).json({ error: 'Board does not exist. ' });
     }
     if (board.owner !== req.userId) {
       const loggedUserIsIncluded = await UserBoard.findAll({
-        where: { user_id: req.userId, board_id: req.body.board_id },
+        where: { user_id: req.userId, board_id: req.params.board_id },
       });
 
       if (!loggedUserIsIncluded) {
@@ -46,7 +46,7 @@ class ListController {
     }
 
     const listExist = await List.findOne({
-      where: { name: req.body.name, board_id: req.body.board_id },
+      where: { name: req.body.name, board_id: req.params.board_id },
     });
 
     if (listExist) {
@@ -61,7 +61,7 @@ class ListController {
   }
 
   async update(req, res) {
-    const board = await Board.findByPk(req.body.board_id);
+    const board = await Board.findByPk(req.params.board_id);
 
     if (!board) {
       return res.status(400).json({ error: 'This board does not exist. ' });
@@ -69,7 +69,7 @@ class ListController {
 
     if (board.owner !== req.userId) {
       const loggedUserIsIncluded = await UserBoard.findAll({
-        where: { user_id: req.userId, board_id: req.body.board_id },
+        where: { user_id: req.userId, board_id: req.params.board_id },
       });
 
       if (!loggedUserIsIncluded) {
@@ -104,7 +104,7 @@ class ListController {
 
     if (board.owner !== req.userId) {
       const loggedUserIsIncluded = await UserBoard.findAll({
-        where: { user_id: req.userId, board_id: req.body.board_id },
+        where: { user_id: req.userId, board_id: req.params.board_id },
       });
 
       if (!loggedUserIsIncluded) {

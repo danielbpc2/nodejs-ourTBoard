@@ -42,9 +42,9 @@ routes.delete('/userboards/:id', UserBoardController.delete);
 // Userboard and List nested in Board Route, gives users inside a board
 routes.get('/boards/:board_id/usersboard', UserBoardController.show);
 routes.get('/boards/:board_id/lists', ListController.show);
-routes.post('/boards/lists', ListController.store);
-routes.delete('/boards/lists/:id', ListController.delete);
-routes.put('/boards/lists', ListController.update);
+routes.post('/boards/:board_id/lists', ListController.store);
+routes.delete('/boards/:board_id/lists/:id', ListController.delete);
+routes.put('/boards/:board_id/lists', ListController.update);
 
 // Tasks Routes
 // Tasks from a board and its lists
