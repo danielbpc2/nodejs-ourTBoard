@@ -142,7 +142,8 @@ class TaskController {
     }
     const list = await List.findOne({
       where: { id: task.list_id },
-      include: { model: Board },
+      include: { all: true },
+      order: [[Task, 'position', 'ASC']],
     });
 
     const loggedUserIsIncluded = await UserBoard.findOne({
@@ -151,6 +152,10 @@ class TaskController {
 
     if (task.owner === req.userId || loggedUserIsIncluded) {
       await task.destroy();
+      list.Tasks = list.Tasks.filter(taskWhere => taskWhere.id !== task.id);
+      list.Tasks.forEach((taskInList, index) => {
+        taskInList.update({ position: index });
+      });
 
       return res.status(200).json({ success: true });
     }
