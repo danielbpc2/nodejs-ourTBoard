@@ -6,7 +6,10 @@ class BoardController {
 
     const boards = await Board.findAll({
       where: { owner: req.userId },
-      // include: { model: List, include: Task },
+      // include: {
+      // model: List,
+      // include: { model: Task, order: [[Task, 'position', 'ASC']] },
+      // },
     });
 
     return res.json(boards);
