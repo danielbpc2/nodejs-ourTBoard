@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       title: DataTypes.STRING,
       content: DataTypes.STRING,
       list_id: DataTypes.INTEGER,
+      position: DataTypes.INTEGER,
       owner: DataTypes.INTEGER,
       assigned: DataTypes.INTEGER,
     },
