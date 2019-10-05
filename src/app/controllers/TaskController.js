@@ -75,7 +75,7 @@ class TaskController {
     const { title, content } = req.body;
     const listExists = await List.findOne({
       where: { id: req.params.list_id },
-      include: { model: Board },
+      include: { all: true },
     });
 
     if (!listExists) {
@@ -95,6 +95,7 @@ class TaskController {
     const task = await Task.create({
       title,
       content,
+      position: listExists.Tasks.length,
       owner: req.userId,
       list_id: listExists.id,
     });
