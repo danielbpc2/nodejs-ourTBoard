@@ -16,12 +16,11 @@ class TaskController {
       order: [[List, 'id', 'ASC']],
       include: {
         model: List,
-        attributes: {
-          exclude: ['board_id', 'createdAt', 'updatedAt'],
-        },
+        attributes: [['name', 'listName']],
         include: {
           model: Task,
-          attributes: { exclude: ['list_id', 'updatedAt'] },
+          attributes: { exclude: ['list_id'] },
+          order: [[Task, 'position', 'ASC']],
         },
       },
     });
