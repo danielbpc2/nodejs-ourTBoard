@@ -14,6 +14,10 @@ module.exports = {
       content: {
         type: Sequelize.STRING,
       },
+      position: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       list_id: {
         type: Sequelize.INTEGER,
         onUpdate: 'CASCADE',
