@@ -1,4 +1,4 @@
 export default {
-  secret: 'secretCodeOurTboard554469',
+  secret: process.env.SECRET,
   expiresIn: '7d',
 };
