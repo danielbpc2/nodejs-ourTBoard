@@ -16,12 +16,11 @@ class TaskController {
       order: [[List, 'id', 'ASC']],
       include: {
         model: List,
-        attributes: {
-          exclude: ['board_id', 'createdAt', 'updatedAt'],
-        },
+        attributes: [['name', 'listName']],
         include: {
           model: Task,
-          attributes: { exclude: ['list_id', 'updatedAt'] },
+          attributes: { exclude: ['list_id'] },
+          order: [[Task, 'position', 'ASC']],
         },
       },
     });
@@ -75,7 +74,7 @@ class TaskController {
     const { title, content } = req.body;
     const listExists = await List.findOne({
       where: { id: req.params.list_id },
-      include: { model: Board },
+      include: { all: true },
     });
 
     if (!listExists) {
@@ -95,6 +94,7 @@ class TaskController {
     const task = await Task.create({
       title,
       content,
+      position: listExists.Tasks.length,
       owner: req.userId,
       list_id: listExists.id,
     });
@@ -141,7 +141,8 @@ class TaskController {
     }
     const list = await List.findOne({
       where: { id: task.list_id },
-      include: { model: Board },
+      include: { all: true },
+      order: [[Task, 'position', 'ASC']],
     });
 
     const loggedUserIsIncluded = await UserBoard.findOne({
@@ -150,6 +151,10 @@ class TaskController {
 
     if (task.owner === req.userId || loggedUserIsIncluded) {
       await task.destroy();
+      list.Tasks = list.Tasks.filter(taskWhere => taskWhere.id !== task.id);
+      list.Tasks.forEach((taskInList, index) => {
+        taskInList.update({ position: index });
+      });
 
       return res.status(200).json({ success: true });
     }

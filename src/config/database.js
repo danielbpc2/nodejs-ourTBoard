@@ -1,9 +1,11 @@
+require('dotenv').config();
+
 module.exports = {
-  username: 'docker',
-  password: 'docker',
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
   port: 5432,
   database: 'ourtboard',
-  host: '127.0.0.1',
+  host: process.env.DB_HOST,
   dialect: 'postgres',
   define: {
     timestamps: true,
