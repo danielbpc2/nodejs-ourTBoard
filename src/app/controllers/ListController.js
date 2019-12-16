@@ -55,7 +55,8 @@ class ListController {
         .json({ error: 'List with this name already exists. ' });
     }
 
-    const list = await List.create(req.body);
+    const createList = { ...req.body, board_id: req.params.board_id };
+    const list = await List.create(createList);
 
     return res.json(list);
   }
