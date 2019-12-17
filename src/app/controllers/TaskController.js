@@ -25,14 +25,14 @@ class TaskController {
       },
     });
 
+    if (!board) {
+      return res.status(400).json({ error: 'This board does not exist!' });
+    }
+
     if (board.owner !== req.userId && !loggedUserIsIncluded) {
       return res.status(400).json({
         error: 'You are not the owner, or a collaborator of this Board',
       });
-    }
-
-    if (!board) {
-      return res.status(400).json({ error: 'This board does not exist!' });
     }
 
     return res.json(board.Lists);
