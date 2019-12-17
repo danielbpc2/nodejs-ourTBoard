@@ -1,15 +1,16 @@
 import fs from 'fs';
 import path from 'path';
 import Sequelize from 'sequelize';
-import config from '../../config/database';
+import envConfig from '../../config/database';
 
 const basename = path.basename(__filename);
-// const env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV || 'development';
+const config = envConfig[env];
 const db = {};
 
 let sequelize;
 if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config, {
+  sequelize = new Sequelize(config.database, config, {
     operatorsAliases: false,
   });
 } else {

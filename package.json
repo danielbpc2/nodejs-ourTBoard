@@ -6,7 +6,8 @@
   "author": "Daniel Carvalho <danielbpc2@hotmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "start": "NODE_ENV=production nodemon src/index.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
