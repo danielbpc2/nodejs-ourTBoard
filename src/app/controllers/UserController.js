@@ -35,7 +35,7 @@ class UserController {
 
     const { id, name, email, active } = await User.create(req.body);
 
-    return res.json({ id, name, email, active });
+    return res.status(201).json({ id, name, email, active });
   }
 
   async update(req, res) {
