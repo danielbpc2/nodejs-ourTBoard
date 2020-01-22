@@ -1,3 +1,3 @@
 import server from './server';
 
-server.listen(3000);
+module.exports = server.listen(3000);
