@@ -2,7 +2,11 @@
 
 # nodejs-ourTBoard
 
-Read me [WIP - Work in progress]
+> Read me [WIP - Work in progress]
+
+This project was developed to practice NodeJS with Express, and to train the programming logic. The project was a challenge that we found to deepen our knowledge.
+
+Our goal with this project was to reproduce a backend that can simulate Trello's actions. The system has JWT authentication, each user can create his board and create tasks for the board, perform ordering and perform the flow of a kanban board
 
 ## Api endpoints:
 
