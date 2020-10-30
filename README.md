@@ -74,3 +74,15 @@ Our goal with this project was to reproduce a backend that can simulate Trello's
 | **POST**   | `/boards/lists/:list_id/tasks` | returns WIP |
 | **PUT**    | `/boards/lists/tasks/:id`      | returns WIP |
 | **DELETE** | `/boards/lists/tasks/:id`      | returns WIP |
+
+### ▶️ Steps to run:
+
+On terminal
+
+1. Clone the project
+2. 'yarn' to download dependencies
+3. 'yarn sequelize db:migrate' to create tables
+
+4. 'yarn dev' to run with nodemon on dev env mode
+5. 'yarn start' to run production env mode with nodemon
+6. 'yarn test' to run all tests
